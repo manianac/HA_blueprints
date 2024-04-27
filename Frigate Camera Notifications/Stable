@@ -63,11 +63,7 @@ blueprint:
         Select the camera entity that will trigger notifications. 
         If you do not see cameras listed in the drop down, check you have the frigate integration installed.
         Note: The automation relies on this matching your frigate config (by default it does).
-      selector:
-        entity:
-          integration: frigate
-          domain: camera
-          device_class: camera
+      default: ""
     notify_device:
       name: Mobile Device
       description: Select a device that runs the official Home Assistant app to receive notifications. If you wish to notify a group of devices or and Android/Fire TV use the field below to override this selection. This can be left blank in that case
