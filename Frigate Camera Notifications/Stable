@@ -374,12 +374,12 @@ blueprint:
         The url to open when tapping on the notification. Some presets are provided, you can also set you own. 
 
         These 7 options define the text and urls associated with the three action buttons at the bottom of the notification.
-      default: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+      default: "{{base_url}}/api/events/{{id}}/clip.mp4"
       selector:
         select:
           options:
             - label: View Clip
-              value: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+              value: "{{base_url}}/api/events/{{id}}/clip.mp4"
             - label: View Snapshot
               value: "{{base_url}}/api/events/{{id}}/snapshot.jpg"
             - label: Open Frigate
@@ -392,12 +392,12 @@ blueprint:
     url_1:
       name: Action Button 1 URL
       description: Customise what happens when you press the first Action Button. Select from one of the preconfigured options or enter your own custom URL.
-      default: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+      default: "{{base_url}}/api/events/{{id}}/clip.mp4"
       selector:
         select:
           options:
             - label: View Clip
-              value: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+              value: "{{base_url}}/api/events/{{id}}/clip.mp4"
             - label: View Snapshot
               value: "{{base_url}}/api/events/{{id}}/snapshot.jpg"
           custom_value: true
@@ -413,7 +413,7 @@ blueprint:
         select:
           options:
             - label: View Clip
-              value: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+              value: "{{base_url}}/api/events/{{id}}/clip.mp4"
             - label: View Snapshot
               value: "{{base_url}}/api/events/{{id}}/snapshot.jpg"
           custom_value: true
@@ -431,7 +431,7 @@ blueprint:
             - label: Silence New Notifications
               value: silence-{{ camera }}
             - label: View Clip
-              value: "{{base_url}}/api/events/{{id}}/{{camera}}/clip.mp4"
+              value: "{{base_url}}/api/events/{{id}}/clip.mp4"
             - label: View Snapshot
               value: "{{base_url}}/api/events/{{id}}/snapshot.jpg"
           custom_value: true
@@ -689,7 +689,7 @@ action:
                               group: "{{ camera }}-frigate-notification"
                               color: "{{color}}"
                               # Android Specific
-                              image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg?format=android"
+                              image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                               clickAction: "{{tap_action}}"
                               ttl: "{{ iif(critical, 0, 3600000) }}"
                               priority: "{{ iif(critical, 'high', 'normal') }}"
