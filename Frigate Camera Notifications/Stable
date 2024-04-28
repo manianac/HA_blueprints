@@ -60,9 +60,7 @@ blueprint:
     camera:
       name: Frigate Camera
       description: |
-        Select the camera entity that will trigger notifications. 
-        If you do not see cameras listed in the drop down, check you have the frigate integration installed.
-        Note: The automation relies on this matching your frigate config (by default it does).
+        Enter the camera name from the Frigate configuration
       default: ""
     notify_device:
       name: Mobile Device
@@ -515,7 +513,7 @@ blueprint:
 mode: parallel
 trigger_variables:
   input_camera: !input camera
-  camera: "{{ input_camera | replace('camera.', '') }}"
+  camera: "{{ input_camera }}"
 trigger:
   - platform: event
     event_type: mobile_app_notification_action
@@ -529,7 +527,7 @@ trigger:
     id: frigate-event
 variables:
   input_camera: !input camera
-  camera: "{{ input_camera | replace('camera.', '') }}"
+  camera: "{{ input_camera }}"
   camera_name: "{{ camera | replace('_', ' ') | title }}"
   input_base_url: !input base_url
   base_url: "{{ input_base_url.rstrip('/')}}"
@@ -691,7 +689,7 @@ action:
                               group: "{{ camera }}-frigate-notification"
                               color: "{{color}}"
                               # Android Specific
-                              image: "/api/events/{{id}}/{{attachment}}.jpg?format=android"
+                              image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg?format=android"
                               clickAction: "{{tap_action}}"
                               ttl: "{{ iif(critical, 0, 3600000) }}"
                               priority: "{{ iif(critical, 'high', 'normal') }}"
@@ -700,7 +698,7 @@ action:
                               # iOS Specific
                               url: "{{tap_action}}"
                               attachment:
-                                url: "/api/events/{{id}}/{{attachment}}.jpg"
+                                url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                               push:
                                 sound: "{{sound}}"
                                 interruption-level: "{{ iif(critical, 'critical', 'active') }}"
@@ -745,7 +743,7 @@ action:
                                 # iOS Specific
                                 url: "{{tap_action}}"
                                 attachment:
-                                  url: "/api/events/{{id}}/{{attachment}}.jpg"
+                                  url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                                 push:
                                   sound: "{{sound}}"
                                 interruption-level: "{{ iif(critical, 'critical', 'active') }}"
@@ -772,7 +770,7 @@ action:
                             group: "{{ camera }}-frigate-notification{{'-loitering' if loitering}}"
                             color: "{{color}}"
                             # Android Specific
-                            image: "/api/events/{{id}}/{{attachment}}.jpg?format=android"
+                            image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                             clickAction: "{{tap_action}}"
                             ttl: "{{ iif(critical, 0, 3600000) }}"
                             priority: "{{ iif(critical, 'high', 'normal') }}"
@@ -787,7 +785,7 @@ action:
                             # iOS Specific
                             url: "{{tap_action}}"
                             attachment:
-                              url: "/api/events/{{id}}/{{attachment}}.jpg"
+                              url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                             push:
                               sound: "{{sound}}"
                               interruption-level: "{{ iif(critical, 'critical', 'active') }}"
@@ -873,7 +871,7 @@ action:
                                   multi-zone filter: {{'OFF' if not zone_only or not zone_multi else 'ON'}} - {{'PASS' if not zone_only or not zone_multi or ( entered_zones|length and zones and zones |reject('in', entered_zones) |list |length == 0 ) else 'FAIL'}}, 
                                   state filter TEST: {{'ON' if state_only else 'OFF'}} - {{'PASS' if state_true else 'FAIL'}}
 
-                                  image: "/api/events/{{id}}/{{attachment}}.jpg"
+                                  image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                 - alias: "Notify on loitering or significant change"
                   choose:
                     - conditions: "{{ loitering or (not home and zone_filter and zone_multi_filter and state_true and (new_snapshot or presence_changed or stationary_moved or zone_only_changed or entered_zones_changed or sub_label_changed)) }}"
@@ -901,7 +899,7 @@ action:
                                     # iOS Specific
                                     url: "{{tap_action}}"
                                     attachment:
-                                      url: "/api/events/{{id}}/{{attachment}}.jpg"
+                                      url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                                     push:
                                       sound: "{{ iif(update, 'none', sound) }}"
                                       interruption-level: "{{ iif(critical, 'critical', 'active') }}"
@@ -947,7 +945,7 @@ action:
                                       # iOS Specific
                                       url: "{{tap_action}}"
                                       attachment:
-                                        url: "/api/events/{{id}}/{{attachment}}.jpg"
+                                        url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                                       push:
                                         sound: "{{ iif(update, 'none', sound) }}"
                                       interruption-level: "{{ iif(critical, 'critical', 'active') }}"
@@ -974,7 +972,7 @@ action:
                                   group: "{{ camera }}-frigate-notification{{'-loitering' if loitering}}"
                                   color: "{{color}}"
                                   # Android Specific
-                                  image: "/api/events/{{id}}/{{attachment}}.jpg?format=android"
+                                  image: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                                   clickAction: "{{tap_action}}"
                                   ttl: "{{ iif(critical, 0, 3600000) }}"
                                   priority: "{{ iif(critical, 'high', 'normal') }}"
@@ -990,7 +988,7 @@ action:
                                   # iOS Specific
                                   url: "{{tap_action}}"
                                   attachment:
-                                    url: "/api/events/{{id}}/{{attachment}}.jpg"
+                                    url: "{{base_url}}/api/events/{{id}}/{{attachment}}.jpg"
                                   push:
                                     sound: "{{ iif(update, 'none', sound) }}"
                                     interruption-level: "{{ iif(critical, 'critical', 'active') }}"
