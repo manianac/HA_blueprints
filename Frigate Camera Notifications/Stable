@@ -374,10 +374,12 @@ blueprint:
         The url to open when tapping on the notification. Some presets are provided, you can also set you own. 
 
         These 7 options define the text and urls associated with the three action buttons at the bottom of the notification.
-      default: "{{base_url}}/api/events/{{id}}/clip.mp4"
+      default: "/dashboard-doorbell/0"
       selector:
         select:
           options:
+            - label: Open Dashboard
+              value: "/dashboard-doorbell/0"
             - label: View Clip
               value: "{{base_url}}/api/events/{{id}}/clip.mp4"
             - label: View Snapshot
